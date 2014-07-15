@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10" >
+    
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,78 +12,127 @@
         android:layout_weight="6"
         android:orientation="horizontal"
         android:weightSum="10" >
+  
+        
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:weightSum="2" >
+            
+
+            <Button
+                android:id="@+id/startrecord"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="record"
+                android:visibility="visible" />
+    
+
+            
+
+            <Button
+                android:id="@+id/stoprecord"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Stop record"
+                android:visibility="gone" />
+            
+            
+
+            <Button
+                android:id="@+id/capture"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="capture"
+                android:visibility="visible" />
+            
+        
+        </LinearLayout>
+        
 
         <RelativeLayout
             android:id="@+id/layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="9"
+            android:layout_weight="6"
             tools:context=".MainActivity" >
+        
         </RelativeLayout>
+        
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical"
             android:weightSum="2" >
+            
 
             <Button
                 android:id="@+id/Starlocal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Start local" />
+                android:text="Start local"
+                android:visibility="visible" />
     
+
+            
 
             <Button
                 android:id="@+id/Stoplocal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="Stop local"
                 android:visibility="gone" />
+            
 
             <Button
                 android:id="@+id/connect"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:enabled="false"
-                android:text="connect" />
+                android:text="connect"
+                android:visibility="visible" />
+            
 
             <Button
-                android:id="@+id/start"
+                android:id="@+id/disconnect"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="start"
+                android:text="disconnect"
                 android:visibility="gone" />
         
-
-            <Button
-                android:id="@+id/stop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="stop"
-                android:visibility="gone" />
+        
         </LinearLayout>
+    
     </LinearLayout>
+    
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
         android:orientation="horizontal" >
+        
 
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         
+        
         </ListView>
         
+    
     </LinearLayout>
 
 </LinearLayout>

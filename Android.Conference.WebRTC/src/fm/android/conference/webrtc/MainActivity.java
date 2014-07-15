@@ -23,8 +23,10 @@ public class MainActivity extends Activity {
 	private RelativeLayout layout;
 	private GestureDetector gestureDetector;
 	private static RelativeLayout container;
-	private Button btStartlocal, btStoplocal, btConnect, btstart, btstop;
+	private Button btStartlocal, btStoplocal, btConnect, btStartRecord, btStopRecord,
+			btDisconnect;
 	private ListView lv;
+	private Adapter ad;
 	final App app = App.getInstance();
 
 	@Override
@@ -81,24 +83,7 @@ public class MainActivity extends Activity {
 
 			}
 		});
-		lv.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, final View view,
-					int position, long id) {
-				btstart.setVisibility(view.VISIBLE);
-				btConnect.setVisibility(View.GONE);
-				btstop.setVisibility(view.GONE);
-				btstart.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						btstart.setVisibility(view.GONE);
-						btstop.setVisibility(view.VISIBLE);
-					}
-				});
-			}
-		});
 		btStartlocal.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -114,14 +99,20 @@ public class MainActivity extends Activity {
 				stopLocal();
 			}
 		});
-		btstart.setOnClickListener(new OnClickListener() {
+		btStartRecord.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if (app.getPeerId().length > 0)
-					Toast.makeText(MainActivity.this, app.getPeerId()[0],
-							Toast.LENGTH_LONG).show();
+				ad.addItem(app.getPeerId(),app.getLink());
+			}
+		});
+		btDisconnect.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				disconnectServer();
 			}
 		});
 
@@ -172,8 +163,9 @@ public class MainActivity extends Activity {
 		btStartlocal = (Button) findViewById(R.id.Starlocal);
 		btStoplocal = (Button) findViewById(R.id.Stoplocal);
 		btConnect = (Button) findViewById(R.id.connect);
-		btstart = (Button) findViewById(R.id.start);
-		btstop = (Button) findViewById(R.id.stop);
+		btDisconnect = (Button) findViewById(R.id.disconnect);
+		btStartRecord = (Button) findViewById(R.id.startrecord);
+		btStopRecord = (Button) findViewById(R.id.stoprecord);
 		lv = (ListView) findViewById(R.id.listView);
 		startLocal();
 	}
@@ -208,10 +200,9 @@ public class MainActivity extends Activity {
 		btStoplocal.setVisibility(View.GONE);
 		btConnect.setVisibility(View.VISIBLE);
 		btConnect.setEnabled(false);
-		btstart.setVisibility(View.GONE);
-		btstop.setVisibility(View.GONE);
+		btDisconnect.setVisibility(View.GONE);
 		lv.setVisibility(View.GONE);
-
+		ad.removeAll();
 		container.removeAllViews();
 		app.stopLocalMedia(new SingleAction<Exception>() {
 			public void invoke(Exception ex) {
@@ -224,7 +215,7 @@ public class MainActivity extends Activity {
 										ex.getMessage());
 						}
 					});
-					
+
 				} else {
 					alert("Could not stop local media. %s", ex.getMessage());
 				}
@@ -233,9 +224,11 @@ public class MainActivity extends Activity {
 	}
 
 	public void connectServer() {
-		Adapter ad = new Adapter();
+		ad = new Adapter();
 		lv.setAdapter(ad);
-		btConnect.setEnabled(false);
+		btConnect.setVisibility(View.GONE);
+		btDisconnect.setVisibility(View.VISIBLE);
+		btDisconnect.setEnabled(true);
 		lv.setVisibility(View.VISIBLE);
 		app.startLocalMedia(new SingleAction<Exception>() {
 			public void invoke(Exception ex) {
@@ -265,6 +258,28 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
+
+	}
+
+	public void disconnectServer() {
+		btStartlocal.setVisibility(View.GONE);
+		btStoplocal.setVisibility(View.VISIBLE);
+		btConnect.setVisibility(View.VISIBLE);
+		btConnect.setEnabled(true);
+		ad.removeAll();
+		btDisconnect.setVisibility(View.GONE);
+		lv.setVisibility(View.GONE);
+		new SingleAction<Exception>() {
+			public void invoke(Exception ex) {
+				app.stopConference();
+				app.stopSignalling(new SingleAction<Exception>() {
+					public void invoke(Exception ex) {
+						if (ex != null)
+							alert("Could not stop signalling. %s", ex.getMessage());
+						}
+				});
+			}
+		};
 
 	}
 }

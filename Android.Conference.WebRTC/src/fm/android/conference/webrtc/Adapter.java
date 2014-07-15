@@ -2,29 +2,36 @@ package fm.android.conference.webrtc;
 
 import java.util.ArrayList;
 
-import android.R.layout;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import fm.icelink.Link;
 
 public class Adapter extends BaseAdapter {
 
 	ArrayList<Rowdata> array;
 	LayoutInflater inflater;
 	Context ctx;
-
-	public Adapter() {
+	public Adapter(){
 		array = new ArrayList<Rowdata>();
-		array.add(new Rowdata(1, "row1"));
-		array.add(new Rowdata(2, "row2"));
-		array.add(new Rowdata(3, "row3"));
-		array.add(new Rowdata(4, "row4"));
-		array.add(new Rowdata(5, "row5"));
 	}
-
+	public void addItem(String[] obj,Link[] links){
+		for(int i=0;i<obj.length;i++){
+			array.add(new Rowdata(i+1, obj[i],links[i]));
+			this.notifyDataSetChanged();
+		}
+	}
+	public void removeAll(){
+		array.clear();
+		this.notifyDataSetChanged();
+	}
 	public void MyBaseAdapter(Context context, ArrayList<Rowdata> array) {
 		this.array = array;
 		this.ctx = context;
@@ -55,14 +62,22 @@ public class Adapter extends BaseAdapter {
 			LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 			convertView = inflater.inflate(R.layout.item_row, parent, false);
 		}
-		Rowdata rowdata = array.get(position);
-
+		final Rowdata rowdata = array.get(position);
+		
 		TextView id = (TextView) convertView.findViewById(R.id.id);
 		TextView row = (TextView) convertView.findViewById(R.id.row);
 		if (rowdata != null) {
 			id.setText(String.valueOf(rowdata.getId()));
 			row.setText(rowdata.getRow());
 		}
+		OnClickListener selectPeer = new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 		return convertView;
 	}
 }

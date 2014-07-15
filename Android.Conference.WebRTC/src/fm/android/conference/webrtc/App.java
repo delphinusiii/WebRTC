@@ -140,6 +140,7 @@ public class App {
 				// the remote video control on-screen by passing it to the
 				// layout manager created above. Whenever a P2P link goes
 				// down, remove it.
+				
 				VideoStream videoStream = new VideoStream(
 						localMedia.getLocalStream());
 				videoStream
@@ -231,5 +232,8 @@ public class App {
 	}
 	public String[] getPeerId(){
 		return conference.getPeerIds();
+	}
+	public Link[] getLink(){
+		return conference.getLinks();
 	}
 }
