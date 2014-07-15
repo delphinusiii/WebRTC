@@ -4,12 +4,12 @@ import fm.icelink.Link;
 
 public class Rowdata{
 	private int id;
-	private String row;
+	private String peerId;
 	private Link link;
 	
-	public Rowdata(int id,String row,Link link){
+	public Rowdata(int id,String peerId,Link link){
 		this.id=id;
-		this.row=row;
+		this.setPeerId(peerId);
 		this.link = link;
 	}
 
@@ -21,13 +21,6 @@ public class Rowdata{
 		this.id = id;
 	}
 
-	public String getRow() {
-		return row;
-	}
-
-	public void setRow(String row) {
-		this.row = row;
-	}
 
 	public Link getLink() {
 		return link;
@@ -35,6 +28,14 @@ public class Rowdata{
 
 	public void setLink(Link link) {
 		this.link = link;
+	}
+
+	public String getPeerId() {
+		return peerId;
+	}
+
+	public void setPeerId(String peerId) {
+		this.peerId = peerId;
 	}
 	
 }

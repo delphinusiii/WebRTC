@@ -17,14 +17,15 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import fm.SingleAction;
+import fm.icelink.Link;
 import fm.icelink.webrtc.DefaultProviders;
 
 public class MainActivity extends Activity {
 	private RelativeLayout layout;
 	private GestureDetector gestureDetector;
 	private static RelativeLayout container;
-	private Button btStartlocal, btStoplocal, btConnect, btStartRecord, btStopRecord,
-			btDisconnect;
+	private Button btStartlocal, btStoplocal, btConnect, btStartRecord,
+			btStopRecord, btGetPeer, btDisconnect;
 	private ListView lv;
 	private Adapter ad;
 	final App app = App.getInstance();
@@ -99,12 +100,19 @@ public class MainActivity extends Activity {
 				stopLocal();
 			}
 		});
-		btStartRecord.setOnClickListener(new OnClickListener() {
+		btGetPeer.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				ad.addItem(app.getPeerId(),app.getLink());
+				ad.removeAll();
+				if(app.getPeerId().length>0){
+					
+					ad.addItem(app.getPeerId(),app.getLink());
+				}else{
+					Toast.makeText(MainActivity.this, "Empty", Toast.LENGTH_SHORT).show();
+				}
+				
 			}
 		});
 		btDisconnect.setOnClickListener(new OnClickListener() {
@@ -113,6 +121,38 @@ public class MainActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				disconnectServer();
+			}
+		});
+        lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,
+					int position, long id) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Information Peer ");
+                final String peerId = ((Rowdata)ad.getItem(position)).getPeerId();
+                final Link link = ((Rowdata)ad.getItem(position)).getLink();
+                builder.setMessage("Peer ID: "+((Rowdata)ad.getItem(position)).getPeerId()+
+                					"\nLink of peer: "+((Rowdata)ad.getItem(position)).getLink());
+                builder.setPositiveButton("Start", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                		app.startLocalMedia(new SingleAction<Exception>() {
+                			public void invoke(Exception ex) {
+                				if (ex == null) {
+                					app.startConferenceWithRemoteVideoStream(link, peerId, container, new SingleAction<Exception>(){
+                						public void invoke(Exception ex){
+                							if(ex!=null){
+                								alert("Could not start conference video. %s",
+    										ex.getMessage());
+                							}
+                						}
+                					});
+                				} 
+                			}
+                		});
+                    }
+                });
+                builder.show();
 			}
 		});
 
@@ -160,14 +200,15 @@ public class MainActivity extends Activity {
 
 	private void initActivity() {
 
-		btStartlocal = (Button) findViewById(R.id.Starlocal);
+		btStartlocal = (Button) findViewById(R.id.Startlocal);
 		btStoplocal = (Button) findViewById(R.id.Stoplocal);
 		btConnect = (Button) findViewById(R.id.connect);
 		btDisconnect = (Button) findViewById(R.id.disconnect);
 		btStartRecord = (Button) findViewById(R.id.startrecord);
 		btStopRecord = (Button) findViewById(R.id.stoprecord);
+		btGetPeer = (Button) findViewById(R.id.getPeer);
 		lv = (ListView) findViewById(R.id.listView);
-		startLocal();
+		// startLocal();
 	}
 
 	public void startLocal() {
@@ -201,6 +242,7 @@ public class MainActivity extends Activity {
 		btConnect.setVisibility(View.VISIBLE);
 		btConnect.setEnabled(false);
 		btDisconnect.setVisibility(View.GONE);
+		btGetPeer.setEnabled(false);
 		lv.setVisibility(View.GONE);
 		ad.removeAll();
 		container.removeAllViews();
@@ -229,6 +271,7 @@ public class MainActivity extends Activity {
 		btConnect.setVisibility(View.GONE);
 		btDisconnect.setVisibility(View.VISIBLE);
 		btDisconnect.setEnabled(true);
+		btGetPeer.setEnabled(true);
 		lv.setVisibility(View.VISIBLE);
 		app.startLocalMedia(new SingleAction<Exception>() {
 			public void invoke(Exception ex) {
@@ -266,6 +309,7 @@ public class MainActivity extends Activity {
 		btStoplocal.setVisibility(View.VISIBLE);
 		btConnect.setVisibility(View.VISIBLE);
 		btConnect.setEnabled(true);
+		btGetPeer.setEnabled(false);
 		ad.removeAll();
 		btDisconnect.setVisibility(View.GONE);
 		lv.setVisibility(View.GONE);
@@ -275,8 +319,9 @@ public class MainActivity extends Activity {
 				app.stopSignalling(new SingleAction<Exception>() {
 					public void invoke(Exception ex) {
 						if (ex != null)
-							alert("Could not stop signalling. %s", ex.getMessage());
-						}
+							alert("Could not stop signalling. %s",
+									ex.getMessage());
+					}
 				});
 			}
 		};

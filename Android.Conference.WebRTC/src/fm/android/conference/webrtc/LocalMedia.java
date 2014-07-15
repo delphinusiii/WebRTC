@@ -12,7 +12,7 @@ public class LocalMedia
     private boolean video          = true;
     private int     videoWidth     = 320;
     private int     videoHeight    = 240;
-    private int     videoFrameRate = 15;
+    private int     videoFrameRate = 24;
     
     private LocalMediaStream localStream;
     public LocalMediaStream getLocalStream()

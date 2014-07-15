@@ -71,15 +71,15 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="vertical"
-            android:weightSum="2" >
+            android:weightSum="3" >
             
 
             <Button
-                android:id="@+id/Starlocal"
+                android:id="@+id/Startlocal"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Start local"
+                android:text="Start Local"
                 android:visibility="visible" />
     
 
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Stop local"
+                android:text="Stop Local"
                 android:visibility="gone" />
             
 
@@ -100,7 +100,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="connect"
-                android:visibility="visible" />
+                android:enabled="false" />
             
 
             <Button
@@ -108,9 +108,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="disconnect"
+                android:text="Disconnect"
                 android:visibility="gone" />
         
+
+            <Button
+                android:id="@+id/getPeer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Get Peer"
+                android:enabled="false" />
         
         </LinearLayout>
     

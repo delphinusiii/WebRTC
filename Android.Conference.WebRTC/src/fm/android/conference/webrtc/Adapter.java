@@ -65,19 +65,11 @@ public class Adapter extends BaseAdapter {
 		final Rowdata rowdata = array.get(position);
 		
 		TextView id = (TextView) convertView.findViewById(R.id.id);
-		TextView row = (TextView) convertView.findViewById(R.id.row);
+		TextView row = (TextView) convertView.findViewById(R.id.peerId);
 		if (rowdata != null) {
 			id.setText(String.valueOf(rowdata.getId()));
-			row.setText(rowdata.getRow());
+			row.setText(rowdata.getPeerId());
 		}
-		OnClickListener selectPeer = new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
 		return convertView;
 	}
 }
