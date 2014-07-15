@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">IceLink Conference - WebRTC</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="note">QÚY KHÁCH CÓ THỂ ĐỂ LẠI LỜI NHẮN NẾU CHỦ NHÀ ĐI VẮNG</string>
+    <string name="n1">1.NHẬP SỐ PHÒNG QUÝ KHÁCH MUỐN GỬI LẠI LỜI NHẮN</string>
+    <string name="n2">2.SAU TIẾNG BÍP,QUÝ KHÁCH NÓI LỜI VÀO MIC</string>
+    <string name="n3">3.NHẤN PHÍM GỬI LỜI NHẮN</string>
+</resources>
