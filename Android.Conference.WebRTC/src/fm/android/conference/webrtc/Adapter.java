@@ -24,7 +24,10 @@ public class Adapter extends BaseAdapter {
 		array.add(new Rowdata(4, "row4"));
 		array.add(new Rowdata(5, "row5"));
 	}
-
+	/*********** AAAAAAAAAAAAAAA***********/
+// Đây là tên pig dở hơi
+// lô loo loo
+//kfjodfhasdihsdo;
 	public void MyBaseAdapter(Context context, ArrayList<Rowdata> array) {
 		this.array = array;
 		this.ctx = context;
